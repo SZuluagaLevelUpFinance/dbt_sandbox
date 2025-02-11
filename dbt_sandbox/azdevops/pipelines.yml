@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-      - main
+      - main #123
 
 pool:
   vmImage: 'ubuntu-22.04'
