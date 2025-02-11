@@ -1,0 +1,13 @@
+dbt_sandbox:
+  outputs:
+    dev:
+      account: xwa97574
+      database: SANDBOX
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: SANDBOX_OWNER
+      schema: "{{ env_var('SF_SANDBOX_SCHEMA') }}"
+      threads: 1
+      type: snowflake
+      user: "{{ env_var('SNOWFLAKE_USERNAME') }}"
+      warehouse: COMPUTE_WH
+  target: dev

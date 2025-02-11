@@ -1,0 +1,63 @@
+name: 'dbt_sandbox'
+version: '1.0.0'
+config-version: 2
+
+profile: 'dbt_sandbox'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+vars:
+  gen_date: '2099-11-02' #dummy value, must be passed from py script
+
+  # renewal related variables
+  base_renewal_prob: '.99'  #decimal number, 0-1
+  max_renewal_prob: '.9995'   #decimal number, 0-1
+  base_renewal_qty: '10'    #integer number
+  max_renewal_qty: '25'     #integer number
+  renewal_upsell_prob: '12.5'  #decimal number, 0-100, percentage points
+  renewal_downsell_prob: '10.0' #decimal number, 0-100, percentage points
+
+  # addon related variables
+  addon_daily_prob: .05
+
+  # recapture related variables
+  base_recap_prob: .01
+
+  # new and cross-sell related variables
+  logo_stabilization: 12  #when products stabilize to a base new logos per month
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  dbt_sandbox:
+    example:
+      +enabled: false
+      +materialized: view
+    gsc_data_gen:
+      active:
+        +materialized: table
+      calc:
+        +materialized: ephemeral
+      prep:
+        +materialized: ephemeral
+      append:
+        +materialized: incremental
+        +enabled: true
+
+seeds:
+  dbt_sandbox:
+    dims:
+      dim_products:
+        +column_types:
+          intro_date: date
+      dim_pricing:
+        +column_types:
+          eff_date: date
