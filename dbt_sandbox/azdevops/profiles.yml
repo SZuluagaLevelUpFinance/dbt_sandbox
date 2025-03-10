@@ -1,13 +1,18 @@
 dbt_sandbox:
   outputs:
     dev:
-      account: xwa97574
-      database: SANDBOX
-      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
-      role: SANDBOX_OWNER
-      schema: "{{ env_var('SF_SANDBOX_SCHEMA') }}"
+      account: "VBJUNST-WCB45803"  
+      database: "DIMS"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD_2') }}"
+      role: "ACCOUNTADMIN"
+      schema: "PUBLIC"
       threads: 1
       type: snowflake
-      user: "{{ env_var('SNOWFLAKE_USERNAME') }}"
-      warehouse: COMPUTE_WH
+      user: "{{ env_var('SNOWFLAKE_USERNAME_2') }}"
+      warehouse: "COMPUTE_WH"
   target: dev
+
+
+#set DBT_PROFILES_DIR=C:\Users\243127.SZuluaga\dbt_sandbox\dbt_sandbox\azdevops
+#cd C:\Users\243127.SZuluaga\dbt_sandbox\dbt_sandbox\azdevops
+#dbt run --target dev

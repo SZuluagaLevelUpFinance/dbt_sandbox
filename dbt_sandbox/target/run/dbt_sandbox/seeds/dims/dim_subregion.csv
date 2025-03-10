@@ -1,0 +1,12 @@
+
+    
+    
+    truncate table "DIMS"."PUBLIC"."DIM_SUBREGION";
+    -- dbt seed --
+    
+            insert into DIMS.PUBLIC.dim_subregion (subregion_name, subregion_id) values
+            (%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s)
+        
+
+;
+  

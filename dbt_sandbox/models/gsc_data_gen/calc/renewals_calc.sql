@@ -46,6 +46,6 @@ left join orders as o2
 	on o2.account_id = r.account_id
 		and o2.product_id = r.product_id
 		and o2.start_date = r.end_date
-left join input_renewal_curve as p
-	on p.days_to_exp = days_to_expiry
+left join {{ ref("input_renewal_curve") }} as p
+  on p.days_to_exp = days_to_expiry
 where renewed_flag = true

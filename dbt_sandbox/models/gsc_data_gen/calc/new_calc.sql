@@ -14,7 +14,7 @@ eligible_cust_prod as (
 		c.customer_id as last_cust_id
 		, lp.product_id
 		, row_number() over (order by uniform(0::float, 100::float, random()) desc) as cust_prod_index
-	from dim_customers as c
+	from dim_customers_v2 as c
 	join launched_products as lp
 	left join orders as o
 		on o.account_id = c.customer_id and lp.product_id = o.product_id

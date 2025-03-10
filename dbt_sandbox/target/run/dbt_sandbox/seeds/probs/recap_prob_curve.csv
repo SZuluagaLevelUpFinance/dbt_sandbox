@@ -1,0 +1,14 @@
+
+    
+    
+    
+    create table DIMS.PUBLIC.recap_prob_curve (min_days integer,max_days integer,recap_prob integer)
+  ;
+    -- dbt seed --
+    
+            insert into DIMS.PUBLIC.recap_prob_curve (min_days, max_days, recap_prob) values
+            (%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s),(%s,%s,%s)
+        
+
+;
+  

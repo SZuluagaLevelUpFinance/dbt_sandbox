@@ -1,0 +1,12 @@
+
+    
+    
+    truncate table "DIMS"."PUBLIC"."DIM_PFAMILY";
+    -- dbt seed --
+    
+            insert into DIMS.PUBLIC.dim_pfamily (pfamily_id, pfamily_name) values
+            (%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s)
+        
+
+;
+  

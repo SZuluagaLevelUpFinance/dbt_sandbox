@@ -1,0 +1,14 @@
+
+    
+    
+    
+    create table DIMS.PUBLIC.addon_prob_curve (quantity integer,up_at_ren_prob float8,up_running float8,ptype_id integer)
+  ;
+    -- dbt seed --
+    
+            insert into DIMS.PUBLIC.addon_prob_curve (quantity, up_at_ren_prob, up_running, ptype_id) values
+            (%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s)
+        
+
+;
+  

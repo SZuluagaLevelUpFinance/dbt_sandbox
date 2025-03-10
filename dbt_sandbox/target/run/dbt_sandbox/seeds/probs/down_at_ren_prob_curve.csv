@@ -1,0 +1,14 @@
+
+    
+    
+    
+    create table DIMS.PUBLIC.down_at_ren_prob_curve (quantity integer,down_at_ren_prob float8,down_running float8,ptype_id integer)
+  ;
+    -- dbt seed --
+    
+            insert into DIMS.PUBLIC.down_at_ren_prob_curve (quantity, down_at_ren_prob, down_running, ptype_id) values
+            (%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s)
+        
+
+;
+  

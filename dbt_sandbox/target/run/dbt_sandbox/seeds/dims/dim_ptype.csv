@@ -1,0 +1,12 @@
+
+    
+    
+    truncate table "DIMS"."PUBLIC"."DIM_PTYPE";
+    -- dbt seed --
+    
+            insert into DIMS.PUBLIC.dim_ptype (ptype_id, ptype_name) values
+            (%s,%s),(%s,%s),(%s,%s)
+        
+
+;
+  

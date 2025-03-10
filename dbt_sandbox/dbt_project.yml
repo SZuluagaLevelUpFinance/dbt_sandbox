@@ -12,7 +12,7 @@ macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
 vars:
-  gen_date: '2099-11-02' #dummy value, must be passed from py script
+  gen_date: '2025-01-01' #dummy value, must be passed from py script
 
   # renewal related variables
   base_renewal_prob: '.99'  #decimal number, 0-1
