@@ -1,5 +1,25 @@
 /*
-    Append generated orders to existing orders table.
+    Model: append/orders.sql
+    Purpose: Consolidates various types of order data (new, renewal, addon, recapture) 
+             from the 'prep' stage models into a single incremental table. It also
+             generates unique contract_ids.
+
+    Important Note on `contract_amount` and `dim_pricing`:
+    - Previously, this model had a fallback mechanism to calculate `contract_amount` using
+      `quantity * unit_price` via a join to `dim_pricing`.
+    - This join (`ON f.product_id = dp.prod_id`) was problematic because `dim_pricing`
+      contains multiple pricing tiers (based on quantity and effective date) for each product.
+      The simple join caused a fan-out (row duplication) and could lead to incorrect
+      `unit_price` selection if the fallback was triggered.
+    - Investigation confirmed that all upstream 'prep' models (`new_orders`, `renewal_orders`,
+      `addon_orders`, `recapture_orders`) correctly calculate and provide the `contract_amount`,
+      including selecting the appropriate price tier from `dim_pricing` based on quantity
+      and contract date (or effective term for add-ons).
+    - Therefore, the join to `dim_pricing` and the fallback calculation for `contract_amount`
+      have been removed from this model (as of <current date or relevant commit reference if known by worker>).
+    - This model now relies on `f.contract_amount` being accurately provided by the upstream CTEs 
+      in `full_orders`. This resolves potential row duplication and ensures `contract_amount` 
+      accuracy based on the specific logic in each 'prep' model.
 */
 
 {{ config(
@@ -63,12 +83,10 @@ select
     f.account_id,
     row_number() over (order by uniform(0::float, 100::float, random()) desc) + lc.last_contract as contract_id,
     f.contract_date,
-    coalesce(f.contract_amount, f.quantity * dp.unit_price) as contract_amount,
+    f.contract_amount,
     f.product_id,
     f.quantity,
     f.start_date,
     f.end_date 
 from full_orders as f
 join last_contract as lc on 1=1
-join dim_pricing as dp
-    on f.product_id = dp.prod_id
