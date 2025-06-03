@@ -16,9 +16,9 @@ current_price_date as (
 	select
 		prod_id as product_id
 		, max(eff_date) as price_date
-	from dim_pricing 
-	where eff_date <= '{{ var("gen_date") }}'
-	group by product_id
+        from dim_pricing
+        where eff_date <= '{{ var("gen_date") }}'
+        group by prod_id
 )
 select 
 	a.account_id

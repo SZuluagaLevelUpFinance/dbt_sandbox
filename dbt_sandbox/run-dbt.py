@@ -2,23 +2,33 @@ from datetime import date, timedelta
 from dbt.cli.main import dbtRunner, dbtRunnerResult
 import snowflake.connector
 import os
-import subprocess
 
-con = snowflake.connector.connect(
-    user=os.getenv('SNOWFLAKE_USERNAME'),
-    password=os.getenv('SNOWFLAKE_PASSWORD'),
-    account='xwa97574',
-    role='sandbox_owner',
-    warehouse='compute_wh',
-    database='sandbox',
-    schema=os.getenv('SF_SANDBOX_SCHEMA')
-)
+sf_user = os.getenv('SNOWFLAKE_USERNAME')
+sf_password = os.getenv('SNOWFLAKE_PASSWORD')
+sf_schema = os.getenv('SF_SANDBOX_SCHEMA')
 
-try:
-    query_output = con.cursor().execute("select last_gen_date from last_gen")
-    for last_gen_date in query_output:
-        starting_date = last_gen_date[0] + timedelta(days = 1)
-except:
+con = None
+if sf_user and sf_password and sf_schema:
+    con = snowflake.connector.connect(
+        user=sf_user,
+        password=sf_password,
+        account='xwa97574',
+        role='sandbox_owner',
+        warehouse='compute_wh',
+        database='sandbox',
+        schema=sf_schema
+    )
+else:
+    print("Snowflake credentials not found. Skipping database connection.")
+
+if con:
+    try:
+        query_output = con.cursor().execute("select last_gen_date from last_gen")
+        for last_gen_date in query_output:
+            starting_date = last_gen_date[0] + timedelta(days=1)
+    except Exception:
+        starting_date = date(2021, 11, 2)
+else:
     starting_date = date(2021, 11, 2)
 
 ending_date = date.today() - timedelta(days = 1)
@@ -45,9 +55,12 @@ while starting_date <= ending_date:
     except:
         print("No output")
 
-print("Copying to individual schemas")
-try:
-    query_output = con.cursor().execute("create or replace table dbt_exercise_sl.gsc_orders as select * from orders")
-    print("SL copy success")
-except:
-    print("SL copy failed!")
+if con:
+    print("Copying to individual schemas")
+    try:
+        con.cursor().execute(
+            "create or replace table dbt_exercise_sl.gsc_orders as select * from orders"
+        )
+        print("SL copy success")
+    except Exception:
+        print("SL copy failed!")
